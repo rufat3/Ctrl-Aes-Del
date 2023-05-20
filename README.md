@@ -1,4 +1,4 @@
-# AES Encryption and Decryption
+# CTRL-AES-DEL
 
 This Java program demonstrates AES encryption and decryption using different modes of operation, including ECB (Electronic Codebook), CBC (Cipher Block Chaining), and CTR (Counter). AES (Advanced Encryption Standard) is a symmetric encryption algorithm widely used for secure data transmission and storage.
 
@@ -20,14 +20,49 @@ The program allows the user to choose between encrypting a plaintext or decrypti
 1. Clone this repository or download the source code.
 2. Open a terminal or command prompt and navigate to the project directory.
 3. Compile the Java source file using the following command:
-
-   ```shell
+ <pre>
+   
    javac AES.java
    
+ </pre>  
+   
 4. Run the program using the following command:
+ <pre>
 
- ```shell
    java AES
+   
+ </pre>
+
+5. Follow the prompts to choose encryption or decryption, enter the necessary inputs, and select the encryption mode.
+
+## Examples
+  
+  ### Encrypting a plaintext using ECB mode:
+  
+![image](https://github.com/rufat3/Ctrl-Aes-Del/assets/116825667/0bc86835-7c34-4955-bb26-272df177c1a0)
+
+
+  ### Decrypting a cipher using ECB mode:
+  
+  ![image](https://github.com/rufat3/Ctrl-Aes-Del/assets/116825667/303fc3bd-170f-4eb7-a251-3f2961cf5222)
+
+
+## Contact
+
+
+Name: Rufat
+
+Email: rufatbakili7@gmail.com
+
+
+  
+  
+
+
+
+
+
+
 
 
    
