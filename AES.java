@@ -2,6 +2,7 @@ import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
 import java.util.Base64;
@@ -12,52 +13,96 @@ public class AES {
     public static void main(String[] args) throws Exception {
         Scanner scanner = new Scanner(System.in);
 
-        // Generate encryption key
-        SecretKey secretKey = generateKey();
-
         // Get input from user
-        System.out.print("Enter plaintext: ");
-        String plaintext = scanner.nextLine();
-
-        // Choose encryption mode
-        System.out.println("Choose encryption mode: ");
-        System.out.println("1. AES-ECB");
-        System.out.println("2. AES-CBC");
-        System.out.println("3. AES-CTR");
+        System.out.println("Choose an option:");
+        System.out.println("1. Encrypt plaintext");
+        System.out.println("2. Decrypt cipher");
         System.out.print("Enter your choice: ");
-        int modeChoice = scanner.nextInt();
+        int choice = scanner.nextInt();
+        scanner.nextLine(); // Consume the newline character
 
-        // Encrypt plaintext using the selected mode
-        String encryptedText = "";
-        switch (modeChoice) {
-            case 1 -> encryptedText = encryptECB(plaintext, secretKey);
-            case 2 -> encryptedText = encryptCBC(plaintext, secretKey);
-            case 3 -> encryptedText = encryptCTR(plaintext, secretKey);
-            default -> {
+        SecretKey secretKey;
+
+        if (choice == 1) {
+            System.out.println("Choose an option:");
+            System.out.println("1. Generate encryption key");
+            System.out.println("2. Enter encryption key");
+            System.out.print("Enter your choice: ");
+            int keyOption = scanner.nextInt();
+            scanner.nextLine(); // Consume the newline character
+
+            if (keyOption == 1) {
+                secretKey = generateKey();
+                System.out.println("Generated encryption key: " + Base64.getEncoder().encodeToString(secretKey.getEncoded()));
+            } else if (keyOption == 2) {
+                System.out.print("Enter encryption key (base64 encoded): ");
+                String encodedKey = scanner.nextLine();
+                byte[] keyBytes = Base64.getDecoder().decode(encodedKey);
+                secretKey = new SecretKeySpec(keyBytes, "AES");
+            } else {
                 System.out.println("Invalid choice.");
-                System.exit(0);
+                return;
             }
-        }
 
-        System.out.println("Encrypted text: " + encryptedText);
+            // Get input from user
+            System.out.print("Enter plaintext: ");
+            String plaintext = scanner.nextLine();
 
-        // Get input from user
-        System.out.print("\nEnter cipher (base64 encoded): ");
-        String cipherText = scanner.next();
+            // Choose encryption mode
+            System.out.println("Choose encryption mode: ");
+            System.out.println("1. AES-ECB");
+            System.out.println("2. AES-CBC");
+            System.out.println("3. AES-CTR");
+            System.out.print("Enter your choice: ");
+            int modeChoice = scanner.nextInt();
 
-        // Decrypt cipher using the selected mode
-        String decryptedText = "";
-        switch (modeChoice) {
-            case 1 -> decryptedText = decryptECB(cipherText, secretKey);
-            case 2 -> decryptedText = decryptCBC(cipherText, secretKey);
-            case 3 -> decryptedText = decryptCTR(cipherText, secretKey);
-            default -> {
-                System.out.println("Invalid choice.");
-                System.exit(0);
+            // Encrypt plaintext using the selected mode
+            String encryptedText;
+            switch (modeChoice) {
+                case 1 -> encryptedText = encryptECB(plaintext, secretKey);
+                case 2 -> encryptedText = encryptCBC(plaintext, secretKey);
+                case 3 -> encryptedText = encryptCTR(plaintext, secretKey);
+                default -> {
+                    System.out.println("Invalid choice.");
+                    return;
+                }
             }
-        }
 
-        System.out.println("Decrypted text: " + decryptedText);
+            System.out.println("Encrypted text: " + encryptedText);
+        } else if (choice == 2) {
+            System.out.print("Enter encryption key (base64 encoded): ");
+            String encodedKey = scanner.nextLine();
+            byte[] keyBytes = Base64.getDecoder().decode(encodedKey);
+            secretKey = new SecretKeySpec(keyBytes, "AES");
+
+            // Get input from user
+            System.out.print("Enter cipher (base64 encoded): ");
+            String cipherText = scanner.nextLine();
+
+            // Choose decryption mode
+            System.out.println("Choose decryption mode: ");
+            System.out.println("1. AES-ECB");
+            System.out.println("2. AES-CBC");
+            System.out.println("3. AES-CTR");
+            System.out.print("Enter your choice: ");
+            int modeChoice = scanner.nextInt();
+
+            // Decrypt cipher using the selected mode
+            String decryptedText;
+            switch (modeChoice) {
+                case 1 -> decryptedText = decryptECB(cipherText, secretKey);
+                case 2 -> decryptedText = decryptCBC(cipherText, secretKey);
+                case 3 -> decryptedText = decryptCTR(cipherText, secretKey);
+                default -> {
+                    System.out.println("Invalid choice.");
+                    return;
+                }
+            }
+
+            System.out.println("Decrypted text: " + decryptedText);
+        } else {
+            System.out.println("Invalid choice.");
+        }
     }
 
     public static SecretKey generateKey() throws Exception {
@@ -114,28 +159,28 @@ public class AES {
         return new String(decryptedBytes, StandardCharsets.UTF_8);
     }
 
-    public static byte[] aesEncrypt(byte[] plaintextBytes, SecretKey secretKey, String transformation) throws Exception {
-        Cipher cipher = Cipher.getInstance(transformation);
+    public static byte[] aesEncrypt(byte[] input, SecretKey secretKey, String cipherAlgorithm) throws Exception {
+        Cipher cipher = Cipher.getInstance(cipherAlgorithm);
         cipher.init(Cipher.ENCRYPT_MODE, secretKey);
-        return cipher.doFinal(plaintextBytes);
+        return cipher.doFinal(input);
     }
 
-    public static byte[] aesEncrypt(byte[] plaintextBytes, SecretKey secretKey, String transformation, byte[] iv) throws Exception {
-        Cipher cipher = Cipher.getInstance(transformation);
+    public static byte[] aesEncrypt(byte[] input, SecretKey secretKey, String cipherAlgorithm, byte[] iv) throws Exception {
+        Cipher cipher = Cipher.getInstance(cipherAlgorithm);
         cipher.init(Cipher.ENCRYPT_MODE, secretKey, new IvParameterSpec(iv));
-        return cipher.doFinal(plaintextBytes);
+        return cipher.doFinal(input);
     }
 
-    public static byte[] aesDecrypt(byte[] cipherBytes, SecretKey secretKey, String transformation) throws Exception {
-        Cipher cipher = Cipher.getInstance(transformation);
+    public static byte[] aesDecrypt(byte[] input, SecretKey secretKey, String cipherAlgorithm) throws Exception {
+        Cipher cipher = Cipher.getInstance(cipherAlgorithm);
         cipher.init(Cipher.DECRYPT_MODE, secretKey);
-        return cipher.doFinal(cipherBytes);
+        return cipher.doFinal(input);
     }
 
-    public static byte[] aesDecrypt(byte[] cipherBytes, SecretKey secretKey, String transformation, byte[] iv) throws Exception {
-        Cipher cipher = Cipher.getInstance(transformation);
+    public static byte[] aesDecrypt(byte[] input, SecretKey secretKey, String cipherAlgorithm, byte[] iv) throws Exception {
+        Cipher cipher = Cipher.getInstance(cipherAlgorithm);
         cipher.init(Cipher.DECRYPT_MODE, secretKey, new IvParameterSpec(iv));
-        return cipher.doFinal(cipherBytes);
+        return cipher.doFinal(input);
     }
 
     public static byte[] generateIV(int length) {
