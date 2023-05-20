@@ -1,5 +1,6 @@
 # CTRL-AES-DEL
 
+### NOTE: This project was completed for educational purposes!
 This Java program demonstrates AES encryption and decryption using different modes of operation, including ECB (Electronic Codebook), CBC (Cipher Block Chaining), and CTR (Counter). AES (Advanced Encryption Standard) is a symmetric encryption algorithm widely used for secure data transmission and storage.
 
 The program allows the user to choose between encrypting a plaintext or decrypting a cipher. When encrypting, the user can either generate an encryption key or enter an existing encryption key. The plaintext is then encrypted using the selected encryption mode. When decrypting, the user is prompted to enter the encryption key and the cipher (base64 encoded). The program decrypts the cipher using the selected decryption mode and returns the decrypted text.
