@@ -1,43 +1,33 @@
-# Ctrl-Aes-Del
-# 
+# AES Encryption and Decryption
 
-This project implements the Advanced Encryption Standard (AES) algorithm in Java, providing a command-line interface (CLI) for encryption and decryption. AES is a widely used symmetric encryption algorithm known for its security and efficiency.
+This Java program demonstrates AES encryption and decryption using different modes of operation, including ECB (Electronic Codebook), CBC (Cipher Block Chaining), and CTR (Counter). AES (Advanced Encryption Standard) is a symmetric encryption algorithm widely used for secure data transmission and storage.
 
-The program generates a random encryption key and allows the user to input plaintext for encryption. It then performs AES encryption on the plaintext using the generated key and outputs the corresponding encrypted text. The user can also input the encrypted text and use the same key for decryption, obtaining the original plaintext.
+The program allows the user to choose between encrypting a plaintext or decrypting a cipher. When encrypting, the user can either generate an encryption key or enter an existing encryption key. The plaintext is then encrypted using the selected encryption mode. When decrypting, the user is prompted to enter the encryption key and the cipher (base64 encoded). The program decrypts the cipher using the selected decryption mode and returns the decrypted text.
 
-The project supports multiple AES modes of operation, allowing the user to choose between different encryption modes, such as ECB (Electronic Codebook), CBC (Cipher Block Chaining), and CTR (Counter). These modes provide different levels of security and are suited for various encryption scenarios.
+## Features
 
-The implementation strives to minimize external library dependencies and leverages the capabilities of the Java programming language to handle AES encryption and decryption operations. The code follows best practices for code organization and documentation.
+- Generate a random encryption key or enter an existing encryption key.
+- Encrypt plaintext using AES with ECB, CBC, or CTR mode.
+- Decrypt a cipher using AES with ECB, CBC, or CTR mode.
+- Input and output are handled through the command line interface.
 
-This project serves as a useful tool for developers and individuals who need to encrypt and decrypt data using AES encryption in a command-line environment.
+## Prerequisites
 
+- Java Development Kit (JDK) installed on your machine.
 
 ## Usage
 
-To use this AES encryption program, follow the steps below:
+1. Clone this repository or download the source code.
+2. Open a terminal or command prompt and navigate to the project directory.
+3. Compile the Java source file using the following command:
 
-Compile the Java code: Open a terminal or command prompt and navigate to the directory where the Java code is located. Use the following command to compile the code:
+   ```shell
+   javac AES.java
+   
+4. Run the program using the following command:
 
-javac AES.java
-
-Run the program: After compiling the code, run the program using the following command:
-
-java AES
-
-Choose the encryption mode: The program will display a menu where you can select the desired AES encryption mode. Enter the corresponding number for the mode you want to use (e.g., 1 for ECB, 2 for CBC, etc.).
-
-Input the plaintext: Once you've selected the encryption mode, the program will prompt you to enter the plaintext that you want to encrypt. Type in the text and press Enter.
-
-Encryption: The program will generate a random encryption key and use it to encrypt the plaintext using the chosen AES mode. The encrypted text will be displayed on the screen.
-
-Decryption: To decrypt the encrypted text, simply input the ciphertext when prompted. The program will use the same key and AES mode to decrypt the text and display the original plaintext
+ ```shell
+   java AES
 
 
-
-
-## Contact
-
-Name: [Rufat]
-Email: [RufatBakili7@gmailcom]
-
-
+   
